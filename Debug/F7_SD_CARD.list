@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  00029352  00000000  00000000  00038b68  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00016814  00000000  00000000  00061eba  2**0
+ 17 .debug_line   00016812  00000000  00000000  00061eba  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000ef128  00000000  00000000  000786ce  2**0
+ 18 .debug_str    000ef128  00000000  00000000  000786cc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  001677f6  2**0
+ 19 .comment      00000050  00000000  00000000  001677f4  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003f40  00000000  00000000  00167848  2**2
+ 20 .debug_frame  00003f40  00000000  00000000  00167844  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1939,7 +1939,7 @@ int main(void)
 
 
 
-  /* Unmount SD after file operations - power down / card swap*/
+  /* Unmount SD after file operations - power down / card swap */
   res = sd_unmount();
  8000efe:	f000 f8bf 	bl	8001080 <sd_unmount>
  8000f02:	4603      	mov	r3, r0
@@ -1948,7 +1948,7 @@ int main(void)
  8000f06:	79fb      	ldrb	r3, [r7, #7]
  8000f08:	2b00      	cmp	r3, #0
  8000f0a:	d005      	beq.n	8000f18 <main+0x64>
-        myprintf("sd_unmount error (%i)\r\n", res);
+      myprintf("sd_unmount error (%i)\r\n", res);
  8000f0c:	79fb      	ldrb	r3, [r7, #7]
  8000f0e:	4619      	mov	r1, r3
  8000f10:	4805      	ldr	r0, [pc, #20]	; (8000f28 <main+0x74>)
@@ -2204,6 +2204,7 @@ FRESULT sd_mount()
  800107c:	20000368 	.word	0x20000368
 
 08001080 <sd_unmount>:
+
 
 /* Unmount drive, default root 0:/ */
 FRESULT sd_unmount()

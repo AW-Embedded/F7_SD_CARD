@@ -115,7 +115,7 @@ int main(void)
 
 
 
-  /* Unmount SD after file operations - power down / card swap*/
+  /* Unmount SD after file operations - power down / card swap */
   res = sd_unmount();
   if(res != FR_OK)
       myprintf("sd_unmount error (%i)\r\n", res);

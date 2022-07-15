@@ -27,6 +27,7 @@ FRESULT sd_mount()
     return res;
 }
 
+
 /* Unmount drive, default root 0:/ */
 FRESULT sd_unmount()
 {
@@ -78,6 +79,7 @@ FRESULT sd_scan()
     return res;
 }
 
+
 /* Re-Format the whole drive - time consuming */
 FRESULT sd_format()
 {
@@ -90,6 +92,7 @@ FRESULT sd_format()
     }
     return res;
 }
+
 
 /* Retrieve drive space */
 FRESULT sd_stats()
@@ -131,15 +134,17 @@ FRESULT sd_create_file(char *name)
     return res;
 }
 
+
+/*  Attempt to remove a file from the volume */
 FRESULT sd_delete_file(char* name)
 {
     FRESULT res;
 
-    /* Attempt to remove the file */
     res = f_unlink(name);
 
     return res;
 }
+
 
 /*
  * Test functions & Example usage
@@ -180,6 +185,7 @@ FRESULT sd_test_read()
     return res;
 }
 
+
 /* Test creating a new file and writing to it */
 FRESULT sd_test_write()
 {
@@ -194,8 +200,8 @@ FRESULT sd_test_write()
     myprintf("**Opened file: 'write.txt'**\r\n");
 
     strncpy((char*)testReadBuf, "a new file is made!", 20);
-    UINT bytesWrote;
 
+    UINT bytesWrote;
     res = f_write(&SDFile, testReadBuf, 20, &bytesWrote);
 
     if(res == FR_OK)
@@ -217,21 +223,25 @@ FRESULT sd_test_write()
     return res;
 }
 
+
 /* Usage examples */
 void sd_example()
 {
     FRESULT res;
 
+    /* Mount SD before file operations - power up / card swap */
     res = sd_mount();
     if(res != FR_OK)
         myprintf("sd_mount error (%i)\r\n", res);
     else
         myprintf("SD Mounted\r\n");
 
+    /* Retrieve drive space */
     res = sd_stats();
     if(res != FR_OK)
         myprintf("sd_stats error (%i)\r\n", res);
 
+    /* Create a file in the root directory */
     res = sd_create_file("data.dat");
     if(res == FR_EXIST)
         myprintf("sd_create_file error : file already exists (%i)\r\n", res);
@@ -240,24 +250,29 @@ void sd_example()
     else
         myprintf("**File: data.dat created**\r\n");
 
+    /*  Attempt to remove a file from the volume */
     res = sd_delete_file("test.txt");
     if(res != FR_OK)
         myprintf("sd_delete_file error (%i)\r\n", res);
     else
         myprintf("File deleted\r\n");
 
+    /* Test reading an existing file and read out data */
     res = sd_test_read();
     if(res != FR_OK)
         myprintf("sd_test_read error (%i)\r\n", res);
 
+    /* Test creating a new file and writing to it */
     res = sd_test_write();
     if(res != FR_OK)
         myprintf("sd_test_write error (%i)\r\n", res);
 
+    /* List files in root directory only */
     res = sd_scan();
     if(res != FR_OK)
         myprintf("sd_scan error (%i)\r\n", res);
 
+    /* Unmount SD after file operations - power down / card swap */
     res = sd_unmount();
     if(res != FR_OK)
         myprintf("sd_unmount error (%i)\r\n", res);
