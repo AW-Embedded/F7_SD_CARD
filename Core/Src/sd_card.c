@@ -112,6 +112,29 @@ FRESULT sd_stats()
     return res;
 }
 
+
+/* Create a file in the root directory */
+FRESULT sd_create_file(char *name)
+{
+    FRESULT res;
+    FIL fil;
+
+    /* Returns FR_EXIST if the file already exists */
+    res = f_open(&fil, name, FA_CREATE_NEW|FA_READ|FA_WRITE);
+    if(res != FR_OK)
+    {
+        return res;
+    }
+
+    res = f_close(&fil);
+
+    return res;
+}
+
+/*
+ * Test functions & Example usage
+ */
+
 /* Test reading an existing file and read out data */
 FRESULT sd_test_read()
 {
@@ -182,4 +205,38 @@ FRESULT sd_test_write()
 
     myprintf("**Closed file: 'write.txt'**\r\n");
     return res;
+}
+
+/* Usage examples */
+void sd_example()
+{
+    FRESULT res;
+
+    res = sd_mount();
+    if(res != FR_OK)
+        myprintf("sd_mount error (%i)\r\n", res);
+    else
+        myprintf("SD Mounted\r\n");
+
+    res = sd_stats();
+    if(res != FR_OK)
+        myprintf("sd_stats error (%i)\r\n", res);
+
+    res = sd_test_read();
+    if(res != FR_OK)
+        myprintf("sd_test_read error (%i)\r\n", res);
+
+    res = sd_test_write();
+    if(res != FR_OK)
+        myprintf("sd_test_write error (%i)\r\n", res);
+
+    res = sd_scan();
+    if(res != FR_OK)
+        myprintf("sd_scan error (%i)\r\n", res);
+
+    res = sd_unmount();
+    if(res != FR_OK)
+        myprintf("sd_unmount error (%i)\r\n", res);
+    else
+        myprintf("SD Unmounted\r\n");
 }

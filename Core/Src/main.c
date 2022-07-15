@@ -102,28 +102,24 @@ int main(void)
   //uint8_t bufferText[] = "Hello";
   //HAL_UART_Transmit(&huart1, &bufferText[0], sizeof(bufferText), 100);
 
+  /* Mount SD before file operations - power up / card swap */
   res = sd_mount();
   if(res != FR_OK)
       myprintf("sd_mount error (%i)\r\n", res);
   else
       myprintf("SD Mounted\r\n");
 
-  res = sd_stats();
-  if(res != FR_OK)
-      myprintf("sd_stats error (%i)\r\n", res);
 
-  res = sd_test_read();
-  if(res != FR_OK)
-      myprintf("sd_test_read error (%i)\r\n", res);
+  res = sd_create_file("data.dat");
+  if(res == FR_EXIST)
+      myprintf("sd_create_file error : file already exists (%i)\r\n", res);
+  else if(res != FR_OK)
+      myprintf("sd_create_file error (%i)\r\n", res);
+  else
+      myprintf("**File: data.dat created**\r\n");
 
-  res = sd_test_write();
-  if(res != FR_OK)
-      myprintf("sd_test_write error (%i)\r\n", res);
 
-  res = sd_scan();
-  if(res != FR_OK)
-      myprintf("sd_scan error (%i)\r\n", res);
-
+  /* Unmount SD after file operations - power down / card swap*/
   res = sd_unmount();
   if(res != FR_OK)
         myprintf("sd_unmount error (%i)\r\n", res);
