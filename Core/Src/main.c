@@ -109,14 +109,8 @@ int main(void)
   else
       myprintf("SD Mounted\r\n");
 
+  /* FatFS operations */
 
-  res = sd_create_file("data.dat");
-  if(res == FR_EXIST)
-      myprintf("sd_create_file error : file already exists (%i)\r\n", res);
-  else if(res != FR_OK)
-      myprintf("sd_create_file error (%i)\r\n", res);
-  else
-      myprintf("**File: data.dat created**\r\n");
 
 
   /* Unmount SD after file operations - power down / card swap*/

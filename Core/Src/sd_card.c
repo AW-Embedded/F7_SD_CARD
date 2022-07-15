@@ -222,6 +222,14 @@ void sd_example()
     if(res != FR_OK)
         myprintf("sd_stats error (%i)\r\n", res);
 
+    res = sd_create_file("data.dat");
+      if(res == FR_EXIST)
+          myprintf("sd_create_file error : file already exists (%i)\r\n", res);
+      else if(res != FR_OK)
+          myprintf("sd_create_file error (%i)\r\n", res);
+      else
+          myprintf("**File: data.dat created**\r\n");
+
     res = sd_test_read();
     if(res != FR_OK)
         myprintf("sd_test_read error (%i)\r\n", res);
