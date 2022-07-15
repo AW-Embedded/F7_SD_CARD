@@ -2,8 +2,21 @@
  * sd_card.c
  *
  *  Created on: 15 Jul 2022
- *      Author: Ant
+ *      Author: Anthony Marshall, AW Embedded
+ *
+ *  High level Driver for FatFS file system (FAT32, LFN disabled)
+ *    - Assumes setup using STM32CubeMX
+ *    - Assumes following startup functions have been called:
+ *      - MX_SDMMC1_SD_Init();
+ *      - MX_DMA_Init(); if using DMA
+ *      - MX_FATFS_Init();
+ *      - MX_USART1_UART_Init(); if using UART for debugging via myprintf()
+ *
+ *   -------- Example usage --------
+ *
+ *   For reference see sd_example() function.
  */
+
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h> //for va_list var arg functions
@@ -84,7 +97,7 @@ FRESULT sd_scan()
 FRESULT sd_format()
 {
     FRESULT res;
-    res = f_mkfs((TCHAR const*)SDPath, FM_ANY, 0, workBuff, sizeof(workBuff));
+    res = f_mkfs((TCHAR const*)SDPath, FM_FAT32, 0, workBuff, sizeof(workBuff));
 
     if(res != FR_OK)
     {
