@@ -131,6 +131,16 @@ FRESULT sd_create_file(char *name)
     return res;
 }
 
+FRESULT sd_delete_file(char* name)
+{
+    FRESULT res;
+
+    /* Attempt to remove the file */
+    res = f_unlink(name);
+
+    return res;
+}
+
 /*
  * Test functions & Example usage
  */
@@ -223,12 +233,18 @@ void sd_example()
         myprintf("sd_stats error (%i)\r\n", res);
 
     res = sd_create_file("data.dat");
-      if(res == FR_EXIST)
-          myprintf("sd_create_file error : file already exists (%i)\r\n", res);
-      else if(res != FR_OK)
-          myprintf("sd_create_file error (%i)\r\n", res);
-      else
-          myprintf("**File: data.dat created**\r\n");
+    if(res == FR_EXIST)
+        myprintf("sd_create_file error : file already exists (%i)\r\n", res);
+    else if(res != FR_OK)
+        myprintf("sd_create_file error (%i)\r\n", res);
+    else
+        myprintf("**File: data.dat created**\r\n");
+
+    res = sd_delete_file("test.txt");
+    if(res != FR_OK)
+        myprintf("sd_delete_file error (%i)\r\n", res);
+    else
+        myprintf("File deleted\r\n");
 
     res = sd_test_read();
     if(res != FR_OK)

@@ -16,6 +16,7 @@ FRESULT sd_scan();
 FRESULT sd_format();
 FRESULT sd_stats();
 FRESULT sd_create_file(char *name);
+FRESULT sd_delete_file(char* name);
 
 FRESULT sd_test_read();
 FRESULT sd_test_write();
