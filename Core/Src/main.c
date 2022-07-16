@@ -98,8 +98,8 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  /* Time for USB VCP and board power-up for SD Card detect pull-up */
-  HAL_Delay(600);
+  /* Time for Disco-Board USB VCP via ST-Link to enumerate */
+  HAL_Delay(300);
   //uint8_t bufferText[] = "Hello";
   //HAL_UART_Transmit(&huart1, &bufferText[0], sizeof(bufferText), 100);
 

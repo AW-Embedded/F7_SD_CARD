@@ -1210,8 +1210,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
  8000aac:	2300      	movs	r3, #0
  8000aae:	633b      	str	r3, [r7, #48]	; 0x30
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
- 8000ab0:	2300      	movs	r3, #0
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 8000ab0:	2301      	movs	r3, #1
  8000ab2:	637b      	str	r3, [r7, #52]	; 0x34
   HAL_GPIO_Init(uSD_Detect_GPIO_Port, &GPIO_InitStruct);
  8000ab4:	f107 032c 	add.w	r3, r7, #44	; 0x2c
@@ -1910,9 +1910,9 @@ int main(void)
  8000ed2:	f000 fb4f 	bl	8001574 <MX_USART1_UART_Init>
   /* USER CODE BEGIN 2 */
 
-  /* Time for USB VCP and board power-up for SD Card detect pull-up */
-  HAL_Delay(600);
- 8000ed6:	f44f 7016 	mov.w	r0, #600	; 0x258
+  /* Time for Disco-Board USB VCP via ST-Link to enumerate */
+  HAL_Delay(300);
+ 8000ed6:	f44f 7096 	mov.w	r0, #300	; 0x12c
  8000eda:	f000 fc83 	bl	80017e4 <HAL_Delay>
   //uint8_t bufferText[] = "Hello";
   //HAL_UART_Transmit(&huart1, &bufferText[0], sizeof(bufferText), 100);
