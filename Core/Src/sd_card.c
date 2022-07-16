@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h> //for va_list var arg functions
+#include <stdbool.h>
 
 #include "sd_card.h"
 #include "main.h"
@@ -146,6 +147,44 @@ FRESULT sd_create_file(char *name)
 
     return res;
 }
+
+/*TODO: Return on error? */
+FRESULT sd_append_file(char *name, char* dataStr, bool init, bool closeFile)
+{
+    FRESULT res;
+    UINT bytesWrote;
+
+    /* Keep these alive between function calls */
+    static FIL file;
+    static uint32_t countSync = 0;
+
+    countSync++;
+
+    /* Only open if first time in */
+    if(init == true)
+        res = f_open(&file, name, FA_OPEN_APPEND|FA_READ|FA_WRITE);
+
+    /* Write data string to file */
+    res = f_write(&file, dataStr, strlen(dataStr), &bytesWrote);
+
+    /* Sync with file system after a number of iterations */
+    /* No need to call if file to be closed, as this will sync */
+    if((countSync == SYNC_NUM) && (closeFile == false))
+    {
+        res = f_sync(&file);
+        countSync = 0;
+    }
+
+    /* Optional close file */
+    if(closeFile == true)
+    {
+        res = f_close(&file);
+        countSync = 0;
+    }
+
+    return res;
+}
+
 
 
 /*  Attempt to remove a file from the volume */
