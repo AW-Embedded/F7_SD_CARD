@@ -114,25 +114,13 @@ int main(void)
   sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
 
   /* Bulk logging to open file */
-  sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file4\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file5\r\n", WRITE_LOG, CONT_LOG);
+  for(uint32_t i = 0; i < 997; i++)
+  {
+      sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
+  }
 
   /* Stop logging to file */
-  sd_append_file("welp.txt", "Test append to file6\r\n", WRITE_LOG, END_LOG);
-
-  /* Start logging to file */
-  sd_append_file("welp.txt", "Test append to file7\r\n", START_LOG, CONT_LOG);
-
-  /* Bulk logging to open file */
-  sd_append_file("welp.txt", "Test append to file8\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file9\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file10\r\n", WRITE_LOG, CONT_LOG);
-  sd_append_file("welp.txt", "Test append to file11\r\n", WRITE_LOG, CONT_LOG);
-
-  /* Stop logging to file */
-  sd_append_file("welp.txt", "Test append to file12\r\n", WRITE_LOG, END_LOG);
+  sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
 
   /* Unmount SD after file operations - power down / card swap */
   res = sd_unmount();
