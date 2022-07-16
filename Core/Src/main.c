@@ -98,36 +98,49 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_Delay(500);
+  /* Time for USB VCP and board power-up for SD Card detect pull-up */
+  HAL_Delay(600);
   //uint8_t bufferText[] = "Hello";
   //HAL_UART_Transmit(&huart1, &bufferText[0], sizeof(bufferText), 100);
 
-  /* Mount SD before file operations - power up / card swap */
-  res = sd_mount();
-  if(res != FR_OK)
-      myprintf("sd_mount error (%i)\r\n", res);
-  else
-      myprintf("SD Mounted\r\n");
+  /* Check SD card present */
+  GPIO_PinState nCardDetect = HAL_GPIO_ReadPin(uSD_Detect_GPIO_Port, uSD_Detect_Pin);
 
-  /* FatFS operations */
-  /* Start logging to file */
-  sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
-
-  /* Bulk logging to open file */
-  for(uint32_t i = 0; i < 997; i++)
+  if(nCardDetect == GPIO_PIN_RESET)
   {
-      sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
+      myprintf("SD Card detected\r\n");
+
+      /* Mount SD before file operations - power up / card swap */
+      res = sd_mount();
+      if(res != FR_OK)
+          myprintf("sd_mount error (%i)\r\n", res);
+      else
+          myprintf("SD Mounted\r\n");
+
+      /* FatFS operations */
+      /* Start logging to file */
+      sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
+
+      /* Bulk logging to open file */
+      for(uint32_t i = 0; i < 997; i++)
+      {
+          sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
+      }
+
+      /* Stop logging to file */
+      sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
+
+      /* Unmount SD after file operations - power down / card swap */
+      res = sd_unmount();
+      if(res != FR_OK)
+          myprintf("sd_unmount error (%i)\r\n", res);
+      else
+          myprintf("SD Unmounted\r\n");
   }
-
-  /* Stop logging to file */
-  sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
-
-  /* Unmount SD after file operations - power down / card swap */
-  res = sd_unmount();
-  if(res != FR_OK)
-      myprintf("sd_unmount error (%i)\r\n", res);
   else
-      myprintf("SD Unmounted\r\n");
+  {
+      myprintf("SD Card not detected\r\n");
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
