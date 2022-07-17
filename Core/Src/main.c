@@ -103,10 +103,14 @@ int main(void)
   //uint8_t bufferText[] = "Hello";
   //HAL_UART_Transmit(&huart1, &bufferText[0], sizeof(bufferText), 100);
 
-  /* Check SD card present */
+  /* Check SD card present - Pin pulled low when card is inserted */
   GPIO_PinState nCardDetect = HAL_GPIO_ReadPin(uSD_Detect_GPIO_Port, uSD_Detect_Pin);
 
-  if(nCardDetect == GPIO_PIN_RESET)
+  if(nCardDetect == CARD_REMOVED)
+  {
+      myprintf("SD Card not detected\r\n");
+  }
+  else if(nCardDetect == CARD_INSERTED)
   {
       myprintf("SD Card detected\r\n");
 
@@ -117,18 +121,8 @@ int main(void)
       else
           myprintf("SD Mounted\r\n");
 
-      /* FatFS operations */
-      /* Start logging to file */
-      sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
+      /* FatFS operations test code here */
 
-      /* Bulk logging to open file */
-      for(uint32_t i = 0; i < 998; i++)
-      {
-          sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
-      }
-
-      /* Stop logging to file */
-      sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
 
       /* Unmount SD after file operations - power down / card swap */
       res = sd_unmount();
@@ -137,10 +131,7 @@ int main(void)
       else
           myprintf("SD Unmounted\r\n");
   }
-  else
-  {
-      myprintf("SD Card not detected\r\n");
-  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

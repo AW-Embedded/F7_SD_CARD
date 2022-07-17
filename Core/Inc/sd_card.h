@@ -23,6 +23,10 @@
 #include <stdbool.h>
 #include "fatfs.h"
 
+
+#define CARD_INSERTED   0
+#define CARD_REMOVED    1
+
 #define START_LOG   true
 #define WRITE_LOG   false
 #define CONT_LOG    false

@@ -148,7 +148,7 @@ FRESULT sd_create_file(char *name)
     return res;
 }
 
-/*TODO: Return on error? */
+/*TODO: Add some error handling returns */
 FRESULT sd_append_file(char *name, char* dataStr, bool init, bool closeFile)
 {
     FRESULT res;
@@ -323,6 +323,18 @@ void sd_example()
     res = sd_scan();
     if(res != FR_OK)
         myprintf("sd_scan error (%i)\r\n", res);
+
+    /* Data logging batch write test */
+    sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
+
+    /* Bulk logging to open file */
+    for(uint32_t i = 0; i < 998; i++)
+    {
+      sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
+    }
+
+    /* Stop logging to file */
+    sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
 
     /* Unmount SD after file operations - power down / card swap */
     res = sd_unmount();
