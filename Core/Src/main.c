@@ -122,7 +122,7 @@ int main(void)
       sd_append_file("welp.txt", "Test append to file1\r\n", START_LOG, CONT_LOG);
 
       /* Bulk logging to open file */
-      for(uint32_t i = 0; i < 997; i++)
+      for(uint32_t i = 0; i < 998; i++)
       {
           sd_append_file("welp.txt", "Test append to file2\r\n", WRITE_LOG, CONT_LOG);
       }

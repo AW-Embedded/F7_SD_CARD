@@ -1928,7 +1928,7 @@ int main(void)
   if(nCardDetect == GPIO_PIN_RESET)
  8000eec:	78fb      	ldrb	r3, [r7, #3]
  8000eee:	2b00      	cmp	r3, #0
- 8000ef0:	d13f      	bne.n	8000f72 <main+0xbe>
+ 8000ef0:	d140      	bne.n	8000f74 <main+0xc0>
   {
       myprintf("SD Card detected\r\n");
  8000ef2:	4823      	ldr	r0, [pc, #140]	; (8000f80 <main+0xcc>)
@@ -1964,7 +1964,7 @@ int main(void)
  8000f20:	f000 f8fc 	bl	800111c <sd_append_file>
 
       /* Bulk logging to open file */
-      for(uint32_t i = 0; i < 997; i++)
+      for(uint32_t i = 0; i < 998; i++)
  8000f24:	2300      	movs	r3, #0
  8000f26:	607b      	str	r3, [r7, #4]
  8000f28:	e008      	b.n	8000f3c <main+0x88>
@@ -1975,57 +1975,57 @@ int main(void)
  8000f2e:	4919      	ldr	r1, [pc, #100]	; (8000f94 <main+0xe0>)
  8000f30:	4817      	ldr	r0, [pc, #92]	; (8000f90 <main+0xdc>)
  8000f32:	f000 f8f3 	bl	800111c <sd_append_file>
-      for(uint32_t i = 0; i < 997; i++)
+      for(uint32_t i = 0; i < 998; i++)
  8000f36:	687b      	ldr	r3, [r7, #4]
  8000f38:	3301      	adds	r3, #1
  8000f3a:	607b      	str	r3, [r7, #4]
  8000f3c:	687b      	ldr	r3, [r7, #4]
- 8000f3e:	f5b3 7f79 	cmp.w	r3, #996	; 0x3e4
- 8000f42:	d9f2      	bls.n	8000f2a <main+0x76>
+ 8000f3e:	f240 32e5 	movw	r2, #997	; 0x3e5
+ 8000f42:	4293      	cmp	r3, r2
+ 8000f44:	d9f1      	bls.n	8000f2a <main+0x76>
       }
 
       /* Stop logging to file */
       sd_append_file("welp.txt", "Test append to file3\r\n", WRITE_LOG, END_LOG);
- 8000f44:	2301      	movs	r3, #1
- 8000f46:	2200      	movs	r2, #0
- 8000f48:	4913      	ldr	r1, [pc, #76]	; (8000f98 <main+0xe4>)
- 8000f4a:	4811      	ldr	r0, [pc, #68]	; (8000f90 <main+0xdc>)
- 8000f4c:	f000 f8e6 	bl	800111c <sd_append_file>
+ 8000f46:	2301      	movs	r3, #1
+ 8000f48:	2200      	movs	r2, #0
+ 8000f4a:	4913      	ldr	r1, [pc, #76]	; (8000f98 <main+0xe4>)
+ 8000f4c:	4810      	ldr	r0, [pc, #64]	; (8000f90 <main+0xdc>)
+ 8000f4e:	f000 f8e5 	bl	800111c <sd_append_file>
 
       /* Unmount SD after file operations - power down / card swap */
       res = sd_unmount();
- 8000f50:	f000 f8d2 	bl	80010f8 <sd_unmount>
- 8000f54:	4603      	mov	r3, r0
- 8000f56:	70bb      	strb	r3, [r7, #2]
+ 8000f52:	f000 f8d1 	bl	80010f8 <sd_unmount>
+ 8000f56:	4603      	mov	r3, r0
+ 8000f58:	70bb      	strb	r3, [r7, #2]
       if(res != FR_OK)
- 8000f58:	78bb      	ldrb	r3, [r7, #2]
- 8000f5a:	2b00      	cmp	r3, #0
- 8000f5c:	d005      	beq.n	8000f6a <main+0xb6>
+ 8000f5a:	78bb      	ldrb	r3, [r7, #2]
+ 8000f5c:	2b00      	cmp	r3, #0
+ 8000f5e:	d005      	beq.n	8000f6c <main+0xb8>
           myprintf("sd_unmount error (%i)\r\n", res);
- 8000f5e:	78bb      	ldrb	r3, [r7, #2]
- 8000f60:	4619      	mov	r1, r3
- 8000f62:	480e      	ldr	r0, [pc, #56]	; (8000f9c <main+0xe8>)
- 8000f64:	f000 f888 	bl	8001078 <myprintf>
- 8000f68:	e006      	b.n	8000f78 <main+0xc4>
+ 8000f60:	78bb      	ldrb	r3, [r7, #2]
+ 8000f62:	4619      	mov	r1, r3
+ 8000f64:	480d      	ldr	r0, [pc, #52]	; (8000f9c <main+0xe8>)
+ 8000f66:	f000 f887 	bl	8001078 <myprintf>
+ 8000f6a:	e006      	b.n	8000f7a <main+0xc6>
       else
           myprintf("SD Unmounted\r\n");
- 8000f6a:	480d      	ldr	r0, [pc, #52]	; (8000fa0 <main+0xec>)
- 8000f6c:	f000 f884 	bl	8001078 <myprintf>
- 8000f70:	e002      	b.n	8000f78 <main+0xc4>
+ 8000f6c:	480c      	ldr	r0, [pc, #48]	; (8000fa0 <main+0xec>)
+ 8000f6e:	f000 f883 	bl	8001078 <myprintf>
+ 8000f72:	e002      	b.n	8000f7a <main+0xc6>
   }
   else
   {
       myprintf("SD Card not detected\r\n");
- 8000f72:	480c      	ldr	r0, [pc, #48]	; (8000fa4 <main+0xf0>)
- 8000f74:	f000 f880 	bl	8001078 <myprintf>
+ 8000f74:	480b      	ldr	r0, [pc, #44]	; (8000fa4 <main+0xf0>)
+ 8000f76:	f000 f87f 	bl	8001078 <myprintf>
   }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
- 8000f78:	e7fe      	b.n	8000f78 <main+0xc4>
- 8000f7a:	bf00      	nop
+ 8000f7a:	e7fe      	b.n	8000f7a <main+0xc6>
  8000f7c:	40020800 	.word	0x40020800
  8000f80:	08009300 	.word	0x08009300
  8000f84:	08009314 	.word	0x08009314
