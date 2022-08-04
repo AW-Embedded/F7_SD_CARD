@@ -17,3 +17,5 @@ If you get an error whilst running the code for the first time with an SD card i
 Note. The sd_example() code may require some fles to already be on the SD card, in case you get errors.
 
 See top of sd_card.c for more description, full setup can be found in CubeMX, just open the .ioc file.
+
+![](/SD_Output.PNG)
