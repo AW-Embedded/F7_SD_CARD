@@ -2,8 +2,11 @@
  
 SD Card example project for STM32F746G-DISCO with card insertion detect.
 
+Built using: 
+
 - STM32Cube FW_F7 V1.17.0
 - STM32CubeMX V6.6.1
+- STM32CubeIDE v1.10.1
 - FatFS R0.12c
 
 If you get an error whilst running the code for the first time with an SD card inserted:
