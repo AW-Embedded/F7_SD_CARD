@@ -11,8 +11,9 @@ Built using:
 
 If you get an error whilst running the code for the first time with an SD card inserted:
 - Format maybe required, edit the code in main.c to call sd_format() - note this is time consuming with a large SD card
-- Once formatted you can remove the sd_format() call and add sd_example() at /* FatFS operations test code here */
+- Once formatted remove the sd_format() call and add sd_example() at /* FatFS operations test code here */
 - sd_unmount() call can then be removed from main.c as it is called from sd_example()
+- The file scan of the SD card needs some work, incomplete
 
 Note. The sd_example() code may require some fles to already be on the SD card, in case you get errors.
 
